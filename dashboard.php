@@ -71,22 +71,25 @@ $bets = $stmt->fetchAll();
 <body>
 <header>
     <div class="header-left">
-        <a href="index.php">Strona Główna</a>
-        
+        <ul>
+            <li><a href="index.php">Strona Główna</a></li>
+        </ul>
     </div>
     <div class="header-title">
         <h1>Betting Site</h1>
     </div>
     <div class="header-right">
-        <?php if (isset($_SESSION['user_id'])): ?>
-
-            <a href="logout.php">Wyloguj</a>
-        <?php else: ?>
-            <a href="login.php">Logowanie</a>
-            <a href="register.php">Rejestracja</a>
-        <?php endif; ?>
+        <ul>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="logout.php">Wyloguj</a></li>
+            <?php else: ?>
+                <li><a href="login.php">Logowanie</a></li>
+                <li><a href="register.php">Rejestracja</a></li>
+            <?php endif; ?>
+        </ul>
     </div>
 </header>
+
 
     <main class="main-content">
         <section>

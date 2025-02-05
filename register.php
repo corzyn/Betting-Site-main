@@ -22,19 +22,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="register.css">
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <a href="index.php">Strona Główna</a>
-           
-        </div>
-        <div class="header-title">
-            <h1>Betting Site</h1>
-        </div>
-        <div class="header-right">
-            <a href="login.php">Logowanie</a>
-            <a href="register.php">Rejestracja</a>
-        </div>
-    </header>
+<header>
+    <div class="header-left">
+        <ul>
+            <li><a href="index.php">Strona Główna</a></li>
+        </ul>
+        
+    </div>
+
+    <div class="header-title">
+        <h1>Betting Site</h1>
+    </div>
+
+    <div class="header-right">
+        <ul>
+            <li><a href="login.php">Logowanie</a></li>
+            <li><a href="register.php">Rejestracja</a></li>
+        </ul>
+    </div>
+</header>
+
     <main>
 
         <form method="POST">

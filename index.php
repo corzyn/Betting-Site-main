@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -15,13 +15,11 @@ session_start();
         <div class="header-left">
             <ul>
                 <li><a href="index.php">Strona Główna</a></li>
-               
                 
             </ul>
         </div>
 
         <h1>Betting Site</h1>
-        
 
         <div class="header-right">
             <ul>
@@ -42,7 +40,9 @@ session_start();
             <h2>Postaw zakład i wygraj!</h2>
             <p>Nowoczesna platforma do zakładów online.</p>
             <a href="dashboard.php" class="cta-button">Rozpocznij teraz</a>
-            <a href="admin.php" class="cta-button">Admin panel</a>
+            <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
+                <a href="admin.php" class="cta-button">admin panel</a>
+            <?php endif; ?>
         </section>
     </main>
     <footer>

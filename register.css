@@ -22,33 +22,63 @@ header {
     height: 90px;
 }
 
-.header-left,
-.header-right {
+.header-left {
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
 }
 
-.header-left a,
-.header-right a {
+.header-left ul {
+    list-style-type: none;
+    display: flex;
+    padding: 10px 0;
+}
+
+.header-left ul li {
+    margin: 0 15px;
+}
+
+.header-left ul li a {
     color: white;
     text-decoration: none;
-    margin: 0 15px;
     font-size: 1.2rem;
+    transition: color 0.3s ease;
 }
 
-.header-left a:hover,
-.header-right a:hover {
-    transition: color 0.3s ease;
+.header-left ul li a:hover {
     color: #ffcc00;
 }
-.header-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.header-title h1 {
+
+header h1 {
     font-size: 2rem;
     text-align: center;
+    flex-grow: 1;
+}
+
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header-right ul {
+    list-style-type: none;
+    display: flex;
+    padding: 10px 0;
+}
+
+.header-right ul li {
+    margin: 0 15px;
+}
+
+.header-right ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.header-right ul li a:hover {
+    color: #ffcc00;
 }
 
 main {
