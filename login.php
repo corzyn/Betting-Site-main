@@ -1,6 +1,8 @@
 <?php
+require 'db.php';
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require 'db.php';
     $username = $_POST['username'];
     $password = $_POST['password'];
     $stmt = $pdo->prepare("SELECT id, password FROM users WHERE username = ?");

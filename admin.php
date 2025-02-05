@@ -3,13 +3,11 @@ require 'db.php';
 
 session_start();
 
-// Sprawdzanie, czy użytkownik jest zalogowany i czy ma uprawnienia administratora
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
     header("Location: login.php");
     exit();
 }
 
-// Obsługa aktualizacji statusu meczu i przyznawania żetonów
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     $match_id = $_POST['match_id'];
     $score_team_a = $_POST['score_team_a'];
@@ -18,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     try {
         $pdo->beginTransaction();
 
-        // Dodanie wyniku meczu
         $stmt = $pdo->prepare("
             INSERT INTO results (match_id, score_team_a, score_team_b)
             VALUES (?, ?, ?)
@@ -26,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
         ");
         $stmt->execute([$match_id, $score_team_a, $score_team_b]);
 
-        // Pobranie zakładów na dany mecz
         $stmtBets = $pdo->prepare("SELECT * FROM bets WHERE match_id = ?");
         $stmtBets->execute([$match_id]);
         $bets = $stmtBets->fetchAll();
@@ -35,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $bet_result = 'przegrany';
             $reward = 0;
 
-            // Ustalanie wyniku zakładu
             if (($bet['bet_type'] == 'team_a' && $score_team_a > $score_team_b) ||
                 ($bet['bet_type'] == 'team_b' && $score_team_b > $score_team_a) ||
                 ($bet['bet_type'] == 'draw' && $score_team_a == $score_team_b)) {
@@ -43,11 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                 $reward = $bet['potential_win'];
             }
 
-            // Aktualizacja statusu zakładu
             $updateBetStmt = $pdo->prepare("UPDATE bets SET status = ? WHERE id = ?");
             $updateBetStmt->execute([$bet_result, $bet['id']]);
 
-            // Przyznanie żetonów w przypadku wygranej
             if ($bet_result == 'wygrany') {
                 $updateUserStmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
                 $updateUserStmt->execute([$reward, $bet['user_id']]);
@@ -62,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     }
 }
 
-// Pobieranie listy meczów
 $stmt = $pdo->query("SELECT * FROM matches");
 $matches = $stmt->fetchAll();
 ?>

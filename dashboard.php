@@ -2,7 +2,6 @@
 require 'db.php';
 session_start();
 
-// Sprawdzamy, czy użytkownik jest zalogowany
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -10,27 +9,22 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Pobieramy dane użytkownika, w tym saldo
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
-// Przechowujemy saldo użytkownika
 $balance = $user['balance'];
 
-// Obsługa obstawiania zakładu
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_bet'])) {
     $match_id = $_POST['match_id'];
     $bet_type = $_POST['bet_type'];
     $stake = $_POST['stake'];
 
     if ($stake <= $balance) {
-        // Zaktualizuj saldo użytkownika
         $new_balance = $balance - $stake;
         $stmt = $pdo->prepare("UPDATE users SET balance = ? WHERE id = ?");
         $stmt->execute([$new_balance, $user_id]);
 
-        // Oblicz potencjalną wygraną
         $stmt = $pdo->prepare("SELECT * FROM matches WHERE id = ?");
         $stmt->execute([$match_id]);
         $match = $stmt->fetch();
@@ -46,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_bet'])) {
 
         $potential_win = $stake * $odds;
 
-        // Dodaj zakład do bazy danych
         $stmt = $pdo->prepare("INSERT INTO bets (user_id, match_id, bet_type, stake, potential_win, status) VALUES (?, ?, ?, ?, ?, 'oczekujący')");
         $stmt->execute([$user_id, $match_id, $bet_type, $stake, $potential_win]);
 
@@ -56,9 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_bet'])) {
     }
 }
 
-// Pobierz listę dostępnych meczów
 $stmt = $pdo->query("SELECT * FROM matches");
 $matches = $stmt->fetchAll();
+$stmt = $pdo->prepare("
+    SELECT bets.*, matches.team_a, matches.team_b 
+    FROM bets 
+    JOIN matches ON bets.match_id = matches.id 
+    WHERE bets.user_id = ? AND bets.status = 'oczekujący'
+");
+$stmt->execute([$user_id]);
+$bets = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -69,22 +69,26 @@ $matches = $stmt->fetchAll();
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <a href="index.php">Strona Główna</a>
-            <a href="bet.php">Zakłady</a>
-        </div>
-        <div class="header-title">
-            <h1>Betting Site</h1>
-        </div>
-        <div class="header-right">
+<header>
+    <div class="header-left">
+        <a href="index.php">Strona Główna</a>
+        <a href="bet.php">Zakłady</a>
+    </div>
+    <div class="header-title">
+        <h1>Betting Site</h1>
+    </div>
+    <div class="header-right">
+        <?php if (isset($_SESSION['user_id'])): ?>
+
+            <a href="logout.php">Wyloguj</a>
+        <?php else: ?>
             <a href="login.php">Logowanie</a>
             <a href="register.php">Rejestracja</a>
-        </div>
-    </header>
+        <?php endif; ?>
+    </div>
+</header>
 
     <main class="main-content">
-        <!-- Twoje Zakłady -->
         <section>
             <h2>Obstawianie Zakładu</h2>
 
@@ -114,7 +118,6 @@ $matches = $stmt->fetchAll();
             </form>
         </section>
 
-        <!-- Nowe Zakłady -->
         <section>
 <h2>Twoje Zakłady</h2>
 <p>Aktualna liczba żetonów: <?php echo $balance; ?></p>

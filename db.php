@@ -5,18 +5,14 @@ $password = '';
 $dbname = 'betting_system';
 
 try {
-    // Połączenie z serwerem MySQL
     $pdo = new PDO("mysql:host=$host", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Tworzenie bazy danych, jeśli nie istnieje
     $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname");
 
 
-    // Połączenie z bazą danych
     $pdo->exec("USE $dbname");
 
-    // Tworzenie tabel
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
