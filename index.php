@@ -15,9 +15,7 @@ session_start();
         <div class="header-left">
             <ul>
                 <li><a href="index.php">Strona Główna</a></li>
-                <?php if ($_SESSION['is_admin'] == 1): ?>
-                    <a href="admin.php">Panel Administratora</a>
-                <?php endif; ?>
+               
                 
             </ul>
         </div>
@@ -44,6 +42,7 @@ session_start();
             <h2>Postaw zakład i wygraj!</h2>
             <p>Nowoczesna platforma do zakładów online.</p>
             <a href="dashboard.php" class="cta-button">Rozpocznij teraz</a>
+            <a href="admin.php" class="cta-button">Admin panel</a>
         </section>
     </main>
     <footer>
