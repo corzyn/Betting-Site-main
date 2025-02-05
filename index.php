@@ -22,6 +22,9 @@ session_start();
 
         <div class="header-right">
             <ul>
+                <?php if ($_SESSION['is_admin'] == 1): ?>
+                    <a href="admin.php">Panel Administratora</a>
+                <?php endif; ?>
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <li><a href="dashboard.php">Panel</a></li>
                     <li><a href="logout.php">Wyloguj</a></li>
@@ -29,6 +32,7 @@ session_start();
                     <li><a href="login.php">Logowanie</a></li>
                     <li><a href="register.php">Rejestracja</a></li>
                 <?php endif; ?>
+                
             </ul>
         </div>
     </header>
