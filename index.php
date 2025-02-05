@@ -14,7 +14,7 @@ session_start();
         <div class="header-left">
             <ul>
                 <li><a href="index.php">Strona Główna</a></li>
-                <li><a href="bet.php">Zakłady</a></li>
+                
             </ul>
         </div>
 
@@ -22,6 +22,9 @@ session_start();
 
         <div class="header-right">
             <ul>
+                <?php if ($_SESSION['is_admin'] == 1): ?>
+                    <a href="admin.php">Panel Administratora</a>
+                <?php endif; ?>
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <li><a href="dashboard.php">Panel</a></li>
                     <li><a href="logout.php">Wyloguj</a></li>
@@ -29,6 +32,7 @@ session_start();
                     <li><a href="login.php">Logowanie</a></li>
                     <li><a href="register.php">Rejestracja</a></li>
                 <?php endif; ?>
+                
             </ul>
         </div>
     </header>
@@ -36,7 +40,7 @@ session_start();
         <section class="hero">
             <h2>Postaw zakład i wygraj!</h2>
             <p>Nowoczesna platforma do zakładów online.</p>
-            <a href="bet.php" class="cta-button">Rozpocznij teraz</a>
+            <a href="dashboard.php" class="cta-button">Rozpocznij teraz</a>
         </section>
     </main>
     <footer>
