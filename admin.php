@@ -63,14 +63,35 @@ $matches = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Panel Administratora</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-    <h1>Panel Administratora</h1>
+<header>
+        <div class="header-left">
+            <ul>
+                <li><a href="index.php">Strona Główna</a></li>
+                
+            </ul>
+        </div>
+
+        <h1>Panel Administratora</h1>
+
+        <div class="header-right">
+            <ul>
+                
+                <?php if(isset($_SESSION['user_id'])): ?>
+                    <li><a href="dashboard.php">Panel</a></li>
+                    <li><a href="logout.php">Wyloguj</a></li>
+                <?php endif; ?>
+                
+            </ul>
+        </div>
+    </header>
+    
 
     <?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
     <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
 
-    <h2>Zaktualizuj Wynik Meczu</h2>
     <form method="POST">
         <label>Wybierz mecz:
             <select name="match_id" required>
@@ -80,12 +101,11 @@ $matches = $stmt->fetchAll();
                     </option>
                 <?php endforeach; ?>
             </select>
-        </label><br>
-        <label>Wynik Drużyna A: <input type="number" name="score_team_a" required></label><br>
-        <label>Wynik Drużyna B: <input type="number" name="score_team_b" required></label><br>
+        </label>
+        <label>Wynik Drużyna A: <input type="number" name="score_team_a" required></label>
+        <label>Wynik Drużyna B: <input type="number" name="score_team_b" required></label>
         <button type="submit" name="update_status">Zaktualizuj Wynik</button>
     </form>
 
-    <a href="index.php">Powrót do strony głównej</a>
 </body>
 </html>
