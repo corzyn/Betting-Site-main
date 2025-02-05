@@ -1,5 +1,6 @@
 <?php
 session_start();
+//var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -22,9 +23,7 @@ session_start();
 
         <div class="header-right">
             <ul>
-                <?php if ($_SESSION['is_admin'] == 1): ?>
-                    <a href="admin.php">Panel Administratora</a>
-                <?php endif; ?>
+                
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <li><a href="dashboard.php">Panel</a></li>
                     <li><a href="logout.php">Wyloguj</a></li>
@@ -41,6 +40,9 @@ session_start();
             <h2>Postaw zakład i wygraj!</h2>
             <p>Nowoczesna platforma do zakładów online.</p>
             <a href="dashboard.php" class="cta-button">Rozpocznij teraz</a>
+            <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
+                <a href="admin.php" class="cta-button">admin panel</a>
+            <?php endif; ?>
         </section>
     </main>
     <footer>

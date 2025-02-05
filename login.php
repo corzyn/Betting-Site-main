@@ -5,7 +5,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE username = ?");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
     if ($user && password_verify($password, $user['password'])) {
@@ -29,24 +29,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <a href="index.php">Strona Główna</a>
-            
-        </div>
-        <div class="header-title">
-            <h1>Betting Site</h1>
-        </div>
-        <div class="header-right">
+<header>
+    <div class="header-left">
+        <ul>
+            <li><a href="index.php">Strona Główna</a></li>
+        </ul>
+    </div>
+
+    <div class="header-title">
+        <h1>Betting Site</h1>
+    </div>
+
+    <div class="header-right">
+        <ul>
+        
             <?php if(isset($_SESSION['user_id'])): ?>
-                <a href="dashboard.php">Panel</a>
-                <a href="logout.php">Wyloguj</a>
+                <li><a href="dashboard.php">Panel</a></li>
+                <li><a href="logout.php">Wyloguj</a></li>
             <?php else: ?>
-                <a href="login.php">Logowanie</a>
-                <a href="register.php">Rejestracja</a>
+                <li><a href="login.php">Logowanie</a></li>
+                <li><a href="register.php">Rejestracja</a></li>
             <?php endif; ?>
-        </div>
-    </header>
+        </ul>
+    </div>
+</header>
     <main>
         <form method="POST">
             <h2>Logowanie</h2>
