@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -14,17 +15,19 @@ session_start();
         <div class="header-left">
             <ul>
                 <li><a href="index.php">Strona Główna</a></li>
+                <?php if ($_SESSION['is_admin'] == 1): ?>
+                    <a href="admin.php">Panel Administratora</a>
+                <?php endif; ?>
                 
             </ul>
         </div>
 
         <h1>Betting Site</h1>
+        
 
         <div class="header-right">
             <ul>
-                <?php if ($_SESSION['is_admin'] == 1): ?>
-                    <a href="admin.php">Panel Administratora</a>
-                <?php endif; ?>
+                
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <li><a href="dashboard.php">Panel</a></li>
                     <li><a href="logout.php">Wyloguj</a></li>
