@@ -72,7 +72,7 @@ $bets = $stmt->fetchAll();
 <header>
     <div class="header-left">
         <a href="index.php">Strona Główna</a>
-        <a href="bet.php">Zakłady</a>
+        
     </div>
     <div class="header-title">
         <h1>Betting Site</h1>

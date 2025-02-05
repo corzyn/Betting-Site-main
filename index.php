@@ -14,7 +14,7 @@ session_start();
         <div class="header-left">
             <ul>
                 <li><a href="index.php">Strona Główna</a></li>
-                <li><a href="bet.php">Zakłady</a></li>
+                
             </ul>
         </div>
 
@@ -36,7 +36,7 @@ session_start();
         <section class="hero">
             <h2>Postaw zakład i wygraj!</h2>
             <p>Nowoczesna platforma do zakładów online.</p>
-            <a href="bet.php" class="cta-button">Rozpocznij teraz</a>
+            <a href="dashboard.php" class="cta-button">Rozpocznij teraz</a>
         </section>
     </main>
     <footer>
